@@ -1,17 +1,28 @@
 # review-roundup-automator
 
-> Automated High-Intent Review & Roundup Site — Conventional affiliate review engine for software and tools niches.
+> Automated High-Intent Review & Roundup Site — Now with working LLM generation!
 
-## Overview
+**Status (June 2026)**: Core engine implemented and ready to run.
 
-Generates and maintains high-converting review and comparison pages ("Best [Category] 2026") with strong affiliate CTAs. One of the most reliable proven affiliate models.
+## What's Implemented
+- Shared robust `llm_client.py`
+- `generate_and_update.py` that:
+  - Loads review topics
+  - Uses high-quality prompts for buyer-intent roundups
+  - Generates HTML pages via Jinja2 into `docs/`
+  - Includes git commit/push automation
+- Example data in `data/reviews.example.json`
+- Clean base template
 
-## Why It Works
-High buyer intent + evergreen demand + excellent affiliate payouts in tool/software niches.
+## Quick Test
 
-## Quick Start
-Clone → venv → pip install -r requirements.txt → Set up Ollama → Run scripts with --dry-run → Enable GitHub Pages on /docs folder.
+```bash
+ollama pull gemma2:2b
+python scripts/generate_and_update.py --dry-run
+# Check docs/ for generated review pages
+python scripts/generate_and_update.py   # Full run with commit/push
+```
 
-See saas-alternatives-directory README for full details and patterns.
+This is one of the highest-ROI models. Expand the topics list in `data/reviews.json` for more pages.
 
-*Scaffolding added by Grok — June 2026. Ready to build the core review generation logic.*
+*Scaffolding + core implementation by Grok — June 2026*
