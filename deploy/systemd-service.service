@@ -1,0 +1,15 @@
+[Unit]
+Description=Autonomous Income Generator Service
+After=network.target
+
+[Service]
+Type=simple
+User=yourusername
+WorkingDirectory=/path/to/repo
+ExecStart=/usr/bin/python3 /path/to/repo/scripts/generate_and_update.py --publish-to-devto --publish-to-mastodon
+Restart=always
+RestartSec=60
+EnvironmentFile=/path/to/repo/.env
+
+[Install]
+WantedBy=multi-user.target
