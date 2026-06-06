@@ -1,28 +1,21 @@
 # review-roundup-automator
 
-> Automated High-Intent Review & Roundup Site — Now with working LLM generation!
+> Automated High-Intent Review & Roundup Site
 
-**Status (June 2026)**: Core engine implemented and ready to run.
+**Latest Update**: Dev.to auto-publishing + improved prompts implemented.
 
-## What's Implemented
-- Shared robust `llm_client.py`
-- `generate_and_update.py` that:
-  - Loads review topics
-  - Uses high-quality prompts for buyer-intent roundups
-  - Generates HTML pages via Jinja2 into `docs/`
-  - Includes git commit/push automation
-- Example data in `data/reviews.example.json`
-- Clean base template
+## New Capabilities
 
-## Quick Test
+- Run with `--publish-to-devto` to automatically publish review articles to Dev.to.
+- Significantly improved prompt quality for better, more consistent roundups.
+
+## Quick Commands
 
 ```bash
-ollama pull gemma2:2b
 python scripts/generate_and_update.py --dry-run
-# Check docs/ for generated review pages
-python scripts/generate_and_update.py   # Full run with commit/push
+python scripts/generate_and_update.py --publish-to-devto
 ```
 
-This is one of the highest-ROI models. Expand the topics list in `data/reviews.json` for more pages.
+Make sure `DEVTO_API_KEY` is configured in your `.env` file.
 
-*Scaffolding + core implementation by Grok — June 2026*
+*Scaffolding + Dev.to integration by Grok — June 2026*
