@@ -2,7 +2,7 @@
 """
 Core generator for review-roundup-automator
 
-Supports LLM-powered review generation + optional Dev.to publishing.
+Now includes centralized affiliate link injection.
 """
 
 import argparse
@@ -16,6 +16,7 @@ from jinja2 import Environment, FileSystemLoader
 
 from scripts.llm_client import generate, is_ollama_available
 from scripts.devto_publisher import publish_to_devto
+from scripts.affiliate_manager import inject_affiliates, get_affiliate_disclosure
 
 load_dotenv()
 
@@ -38,26 +39,26 @@ def load_topics() -> list[dict]:
 
 
 def generate_review_content(topic: dict) -> str:
-    """Generate high-quality review/roundup content."""
     topic_name = topic.get("topic")
     category = topic.get("category", "Software")
 
-    system_prompt = """You are a trusted software reviewer. Write honest, scannable roundups with clear winner recommendations.
-Use markdown headings, tables, and bullet points. Be practical and helpful. Avoid hype."""
+    system_prompt = """You are a trusted software reviewer. Write honest, scannable roundups with clear winner recommendations. Use markdown. Be practical."""
 
     prompt = f"""Write a high-quality roundup for: {topic_name} ({category}).
 
 Structure:
-- Introduction (who this is for)
+- Introduction
 - Top tools with pros/cons
 - Comparison table
 - Clear winner + reasoning
 - "Choose this if..." guidance
 - Short conclusion
 
-Keep it around 550-700 words."""
+Keep ~600 words."""
 
-    return generate(prompt, system=system_prompt)
+    content = generate(prompt, system=system_prompt)
+    content = inject_affiliates(content)
+    return content
 
 
 def build_pages(topics: list[dict]):
@@ -68,7 +69,10 @@ def build_pages(topics: list[dict]):
 
     for topic in topics:
         content = generate_review_content(topic)
-        html = template.render(title=topic.get("topic"), content=f"<h2>{topic.get('topic')}</h2>\n{content}")
+        html = template.render(
+            title=topic.get("topic"),
+            content=f"<h2>{topic.get('topic')}</h2>\n{content}{get_affiliate_disclosure()}"
+        )
         safe = topic.get("topic", "review").lower().replace(" ", "-")[:60]
         (DOCS_DIR / f"{safe}.html").write_text(html)
         print(f"Generated: {topic.get('topic')}")
@@ -80,7 +84,7 @@ def publish_to_devto_if_requested(topics: list[dict], publish: bool):
     for topic in topics[:2]:
         md_content = generate_review_content(topic)
         title = topic.get("topic")
-        tags = ["reviews", "productivity", "tools", "opensource"]
+        tags = ["reviews", "productivity", "tools"]
         canonical = f"https://iamthegreatdestroyer.github.io/review-roundup-automator/{title.lower().replace(' ', '-')}.html"
         publish_to_devto(title=title, body_markdown=md_content, tags=tags, canonical_url=canonical)
 
@@ -103,7 +107,7 @@ def git_commit_and_push(message: str = None):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--publish-to-devto", action="store_true", help="Publish to Dev.to")
+    parser.add_argument("--publish-to-devto", action="store_true")
     args = parser.parse_args()
 
     print("=== review-roundup-automator update ===")

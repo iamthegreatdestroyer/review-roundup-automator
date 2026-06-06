@@ -2,12 +2,15 @@
 
 > Automated High-Intent Review & Roundup Site
 
-**Latest Update**: Dev.to auto-publishing + improved prompts implemented.
+**Latest Update**: Centralized Affiliate Link System added.
 
-## New Capabilities
+## New Feature: Affiliate Management
 
-- Run with `--publish-to-devto` to automatically publish review articles to Dev.to.
-- Significantly improved prompt quality for better, more consistent roundups.
+- Affiliate links are centrally managed in `data/affiliates.json`.
+- Relevant links are automatically injected into generated reviews.
+- Standard affiliate disclosure is included.
+
+Edit `data/affiliates.json` to add your affiliate programs.
 
 ## Quick Commands
 
@@ -16,6 +19,4 @@ python scripts/generate_and_update.py --dry-run
 python scripts/generate_and_update.py --publish-to-devto
 ```
 
-Make sure `DEVTO_API_KEY` is configured in your `.env` file.
-
-*Scaffolding + Dev.to integration by Grok — June 2026*
+*Scaffolding + Affiliate system by Grok — June 2026*
