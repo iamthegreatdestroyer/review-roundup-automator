@@ -1,22 +1,15 @@
-# review-roundup-automator
+# Review Roundup Automator
 
-> Automated High-Intent Review & Roundup Site
+Autonomous high-intent review site.
 
-**Latest Update**: Centralized Affiliate Link System added.
+## Mastodon Integration
+Now supports --publish-to-mastodon flag.
 
-## New Feature: Affiliate Management
+Add to .env:
+MASTODON_INSTANCE=https://mastodon.social
+MASTODON_ACCESS_TOKEN=your_token
 
-- Affiliate links are centrally managed in `data/affiliates.json`.
-- Relevant links are automatically injected into generated reviews.
-- Standard affiliate disclosure is included.
+Full run example:
+python scripts/generate_and_update.py --publish-to-devto --publish-to-mastodon
 
-Edit `data/affiliates.json` to add your affiliate programs.
-
-## Quick Commands
-
-```bash
-python scripts/generate_and_update.py --dry-run
-python scripts/generate_and_update.py --publish-to-devto
-```
-
-*Scaffolding + Affiliate system by Grok — June 2026*
+(Previous content remains)
