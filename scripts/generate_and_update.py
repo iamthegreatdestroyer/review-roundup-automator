@@ -1,10 +1,9 @@
-#!/usr/bin/env python3
+#/usr/bin/env python3
 """
 Core generator for review-roundup-automator
 
-Now includes centralized affiliate link injection.
+Now includes Mastodon posting.
 """
-
 import argparse
 import json
 import os
@@ -14,8 +13,9 @@ from pathlib import Path
 from dotenv import load_dotenv
 from jinja2 import Environment, FileSystemLoader
 
-from scripts.llm_client import generate, is_ollama_available
+from scripts.llm_client import generate
 from scripts.devto_publisher import publish_to_devto
+from scripts.mastodon_publisher import post_to_mastodon, create_teaser
 from scripts.affiliate_manager import inject_affiliates, get_affiliate_disclosure
 
 load_dotenv()
@@ -78,15 +78,22 @@ def build_pages(topics: list[dict]):
         print(f"Generated: {topic.get('topic')}")
 
 
-def publish_to_devto_if_requested(topics: list[dict], publish: bool):
-    if not publish:
+def publish_if_requested(topics: list[dict], publish_devto: bool, publish_mastodon: bool):
+    if not publish_devto and not publish_mastodon:
         return
-    for topic in topics[:2]:
+    for topic in topics[:3]:
         md_content = generate_review_content(topic)
         title = topic.get("topic")
-        tags = ["reviews", "productivity", "tools"]
-        canonical = f"https://iamthegreatdestroyer.github.io/review-roundup-automator/{title.lower().replace(' ', '-')}.html"
-        publish_to_devto(title=title, body_markdown=md_content, tags=tags, canonical_url=canonical)
+        safe_name = title.lower().replace(" ", "-")[:60]
+        page_url = f"https://iamthegreatdestroyer.github.io/review-roundup-automator/{safe_name}.html"
+
+        if publish_devto:
+            tags = ["reviews", "productivity", "tools"]
+            publish_to_devto(title=title, body_markdown=md_content, tags=tags, canonical_url=page_url)
+
+        if publish_mastodon:
+            teaser = create_teaser(title, page_url)
+            post_to_mastodon(teaser)
 
 
 def git_commit_and_push(message: str = None):
@@ -99,7 +106,7 @@ def git_commit_and_push(message: str = None):
             subprocess.run(["git", "push"], cwd=ROOT, check=True)
             print("Pushed.")
         else:
-            print("No changes to commit.")
+            print("No changes.")
     except Exception as e:
         print(f"Git error: {e}")
 
@@ -108,6 +115,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--publish-to-devto", action="store_true")
+    parser.add_argument("--publish-to-mastodon", action="store_true")
     args = parser.parse_args()
 
     print("=== review-roundup-automator update ===")
@@ -115,8 +123,8 @@ def main():
     topics = load_topics()
     build_pages(topics)
 
-    if args.publish_to_devto:
-        publish_to_devto_if_requested(topics, publish=True)
+    if args.publish_to_devto or args.publish_to_mastodon:
+        publish_if_requested(topics, args.publish_to_devto, args.publish_to_mastodon)
 
     if not args.dry_run:
         git_commit_and_push()
