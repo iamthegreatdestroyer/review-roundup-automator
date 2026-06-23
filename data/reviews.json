@@ -1,0 +1,19 @@
+{
+  "topics": [
+    {"topic": "Best Note-Taking Apps 2026", "category": "Productivity", "tools": ["Obsidian", "Logseq", "Joplin", "Notion", "AppFlowy"]},
+    {"topic": "Best Free Project Management Tools", "category": "Collaboration", "tools": ["Planka", "Taiga", "Focalboard", "WeKan", "Vikunja"]},
+    {"topic": "Best Password Managers 2026", "category": "Security", "tools": ["Bitwarden", "KeePassXC", "Proton Pass", "Padloc", "sigma-vault"]},
+    {"topic": "Best Self-Hosted VPN Solutions 2026", "category": "Privacy", "tools": ["NetBird", "Headscale", "Defguard", "WireGuard", "PhantomMesh"]},
+    {"topic": "Best Free Email Clients 2026", "category": "Communication", "tools": ["Thunderbird", "SnappyMail", "Roundcube", "Sylpheed", "Mailspring"]},
+    {"topic": "Best Open Source Analytics Tools", "category": "Analytics", "tools": ["Plausible", "Umami", "Matomo", "PostHog", "Netdata"]},
+    {"topic": "Best Free Video Editing Software 2026", "category": "Creative", "tools": ["DaVinci Resolve", "Kdenlive", "Shotcut", "OpenShot", "OBS Studio"]},
+    {"topic": "Best Self-Hosted Photo Management", "category": "Media", "tools": ["Immich", "PhotoPrism", "LibrePhotos", "Piwigo", "Nextcloud Photos"]},
+    {"topic": "Best Free Music Streaming Servers", "category": "Media", "tools": ["Navidrome", "Jellyfin", "Ampache", "Funkwhale", "Airsonic"]},
+    {"topic": "Best Workflow Automation Tools 2026", "category": "DevOps", "tools": ["n8n", "Activepieces", "Huginn", "Node-RED", "Automatisch"]},
+    {"topic": "Best Free CRM Software 2026", "category": "Business", "tools": ["Twenty", "SuiteCRM", "EspoCRM", "Monica", "Krayin"]},
+    {"topic": "Best API Testing Tools 2026", "category": "Development", "tools": ["Bruno", "Hoppscotch", "Insomnia", "httpie", "REST Client"]},
+    {"topic": "Best Self-Hosted Chat Platforms", "category": "Communication", "tools": ["Matrix/Element", "Rocket.Chat", "Mattermost", "Zulip", "XMPP"]},
+    {"topic": "Best Free DNS Ad Blockers 2026", "category": "Privacy", "tools": ["AdGuard Home", "Pi-hole", "Blocky", "NextDNS", "TechnitiumDNS"]},
+    {"topic": "Best Local AI Coding Assistants 2026", "category": "Development", "tools": ["Continue.dev", "Tabby", "Cody", "FauxPilot", "Ollama + CLI"]}
+  ]
+}
